@@ -1,0 +1,16 @@
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Pytest cache
+.pytest_cache/
+
+# Generisani izvještaji i snimci ekrana
+report.html
+screenshots/
+assets/
+
+# VS Code i okruženje
+.vscode/
+.env
+venv/
