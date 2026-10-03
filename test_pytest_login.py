@@ -1,42 +1,25 @@
-from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+import pytest
 
-def test_successful_login():
-    driver = webdriver.Chrome()
-    try:
-        driver.get("https://the-internet.herokuapp.com/login")
-        wait = WebDriverWait(driver, 10)
+@pytest.mark.parametrize("username, password, expected_text", [
+    ("tomsmith", "SuperSecretPassword!", "You logged into a secure area"),
+    ("pogresan_user", "PogresnaLozinka", "Your username is invalid!")
+])
+def test_login(driver, username, password, expected_text):
+    driver.get("https://the-internet.herokuapp.com/login")
+    wait = WebDriverWait(driver, 10)
 
-        wait.until(EC.visibility_of_element_located((By.ID, "username"))).send_keys("tomsmith")
-        wait.until(EC.visibility_of_element_located((By.ID, "password"))).send_keys("SuperSecretPassword!")
-        
-        wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.radius"))).click()
+    # Unosimo podatke (koji stižu iz parametara iznad)
+    wait.until(EC.visibility_of_element_located((By.ID, "username"))).send_keys(username)
+    wait.until(EC.visibility_of_element_located((By.ID, "password"))).send_keys(password)
+    
+    # Klik na login
+    wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.radius"))).click()
 
-        success_message = wait.until(EC.visibility_of_element_located((By.ID, "flash")))
-        
-        # Proveravamo da li je poruka o uspehu tu
-        assert "You logged into a secure area" in success_message.text
-    finally:
-        driver.quit()
-
-
-def test_failed_login():
-    driver = webdriver.Chrome()
-    try:
-        driver.get("https://the-internet.herokuapp.com/login")
-        wait = WebDriverWait(driver, 10)
-
-        # Unosimo pogrešne podatke
-        wait.until(EC.visibility_of_element_located((By.ID, "username"))).send_keys("pogresan_user")
-        wait.until(EC.visibility_of_element_located((By.ID, "password"))).send_keys("PogresnaLozinka")
-        
-        wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.radius"))).click()
-
-        error_message = wait.until(EC.visibility_of_element_located((By.ID, "flash")))
-        
-        # Proveravamo da li piše da je username nevažeći
-        assert "Your username is invalid!" in error_message.text
-    finally:
-        driver.quit()
+    # Provera poruke
+    message = wait.until(EC.visibility_of_element_located((By.ID, "flash")))
+    
+    # Assert proverava da li očekivani tekst postoji u poruci sa sajta
+    assert expected_text in message.text
