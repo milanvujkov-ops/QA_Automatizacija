@@ -4,7 +4,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 def test_dropdown(driver):
-    # 1. Otvaramo sranicu
+    # 1. Otvaramo stranicu
     driver.get("https://the-internet.herokuapp.com/dropdown")
 
     # 2. Pronalazimo sam element dropdown menija (koji ima id "dropdown")
