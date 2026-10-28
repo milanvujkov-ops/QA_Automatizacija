@@ -5,7 +5,7 @@ from selenium.webdriver.support import expected_conditions as EC
 class ContactPage:
     def __init__(self, driver):
         self.driver = driver
-        self.wait = WebDriverWait(driver, 10)
+        self.wait = WebDriverWait(driver, 15)
 
         # Lokatori
         self.name_input = (By.CSS_SELECTOR, 'input[data-qa="name"]')
@@ -29,11 +29,11 @@ class ContactPage:
             self.driver.find_element(*self.file_upload_input).send_keys(file_path)
 
     def submit_form(self):
-        element = self.driver.find_element(*self.submit_button)
-        self.driver.execute_script("arguments[0].click();", element)
+        element = self.wait.until(EC.element_to_be_clickable(self.submit_button))
+        element.click()
         
         # Prihvatanje JavaScript potvrdnog prozora (alert)
-        WebDriverWait(self.driver, 10).until(EC.alert_is_present())
+        WebDriverWait(self.driver, 15).until(EC.alert_is_present())
         alert = self.driver.switch_to.alert
         alert.accept()
 
