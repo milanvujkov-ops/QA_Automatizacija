@@ -14,7 +14,7 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Instalacija Chromium-a i drajvera preko apt-a
+      - name: Instalacija Chromium-a i drajvera
         run: |
           sudo apt-get update
           sudo apt-get install -y chromium-browser chromium-chromedriver
