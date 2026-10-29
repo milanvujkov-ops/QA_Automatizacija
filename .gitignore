@@ -14,3 +14,9 @@ assets/
 .vscode/
 .env
 venv/
+
+# Izveštaji i baze
+*.html
+*.db
+.pytest_cache/
+__pycache__/
