@@ -14,6 +14,11 @@ jobs:
         with:
           python-version: '3.10'
 
+      - name: Instalacija Firefox pretraživača
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y firefox firefox-geckodriver
+
       - name: Instalacija biblioteka
         run: |
           pip install --upgrade pip
