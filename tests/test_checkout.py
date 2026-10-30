@@ -35,7 +35,10 @@ def test_kompletna_kupovina(driver):
 
     # 2. Prelazimo na proizvode, dodajemo u korpu i radimo checkout
     products_page.otvori()
-    # Dodaj ovde korake za dodavanje u korpu i checkout koji već imaš u svom fajlu...
+    # Čekamo da proizvodi postanu vidljivi pre dodavanja u korpu
+    wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, ".features_items")))
+    
+    products_page.dodaj_prvi_proizvod_u_korpu()
 
     # 3. Idemo u korpu i pokrećemo checkout
     cart_page.otvori_korpu()

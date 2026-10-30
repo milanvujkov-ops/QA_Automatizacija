@@ -9,7 +9,9 @@ def test_scroll(driver):
     wait = WebDriverWait(driver, 10)
     footer = wait.until(EC.presence_of_element_located((By.ID, "page-footer")))
     
-    # Obavezno inicijalizujemo actions pre korišćenja!
+    # Skrolujemo do elementa preko JS-a (najsigurnije za headless)
+    driver.execute_script("arguments[0].scrollIntoView(true);", footer)
+    
     actions = ActionChains(driver)
     actions.move_to_element(footer).perform()
     
