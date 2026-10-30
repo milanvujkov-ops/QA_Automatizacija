@@ -9,6 +9,5 @@ def driver():
     options.add_argument("--height=1080")
     
     browser = webdriver.Firefox(options=options)
-    # Ne koristimo maximize_window u headless modu, već oslanjamo se na width/height iznad
     yield browser
     browser.quit()
