@@ -21,8 +21,6 @@ def test_kompletna_kupovina(driver):
 
     # 1. Registracija novog korisnika
     registracija.otvori()
-    
-    # Čekamo da se polje za ime pojavi pre unosa
     wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "input[data-qa='signup-name']")))
 
     nasumicno_ime = fake.first_name()
