@@ -12,19 +12,23 @@ fake = Faker()
 
 @pytest.mark.smoke
 def test_kompletna_kupovina(driver):
-    wait = WebDriverWait(driver, 20)
+    wait = WebDriverWait(driver, 255) # Dajemo mu komotnih 25 sekundi za headless
 
     products_page = ProductsPage(driver)
     cart_page = CartPage(driver)
     registracija = RegistracijaPage(driver)
     checkout_page = CheckoutPage(driver)
 
-    # 1. Registracija novog korisnika
+    # 1. Registracija novog korisnika sa čekanjem
+    registracija.otvori()
+    
+    # Čekamo da se polje za ime pojavi pre unosa
+    wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "input[data-qa='signup-name']")))
+
     nasumicno_ime = fake.first_name()
     nasumicno_prezime = fake.last_name()
     nasumicni_email = fake.email()
 
-    registracija.otvori()
     registracija.unesi_ime(nasumicno_ime)
     registracija.unesi_email(nasumicni_email)
     registracija.klikni_signup()
@@ -34,6 +38,6 @@ def test_kompletna_kupovina(driver):
     wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, ".features_items")))
     products_page.dodaj_prvi_proizvod_u_korpu()
 
-    # 3. Prelazimo u korpu i radimo checkout
+    # 3. Prelazak u korpu i checkout
     cart_page.otvori_korpu()
     cart_page.idi_na_checkout()
