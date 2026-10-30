@@ -1,5 +1,6 @@
 import pytest
 from selenium.webdriver.common.by import By
+from selenium.webdriver.firefox.webdriver import WebDriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from pages.products_page import ProductsPage
@@ -11,7 +12,7 @@ from faker import Faker
 fake = Faker()
 
 @pytest.mark.smoke
-def test_kompletna_kupovina(driver):
+def test_kompletna_kupovina(driver: WebDriver):
     wait = WebDriverWait(driver, 40)
 
     products_page = ProductsPage(driver)
