@@ -33,8 +33,7 @@ def test_kompletna_kupovina(driver):
     # Čekamo da se registracija obradi pre nego što nastavimo
     wait.until(lambda d: "signup" not in d.current_url or True)
     # 2. Prelazimo na proizvode, dodajemo u korpu i radimo checkout
-    products_page.otvori()
-    
+    products_page.otvori()  
     # Čekamo da proizvodi postanu vidljivi pre dodavanja u korpu
     wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, ".features_items")))
     
