@@ -1,12 +1,13 @@
 import os
+import pytest
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 
-@pytest.mark.skip
+@pytest.mark.skip(reason="HTML5 drag and drop ne radi u headless modu na CI serveru")
 def test_drag_and_drop(driver):
-    # 1. Otvaramo stranicu (ispravljen URL bez suvišne zagrade)
+    # 1. Otvaramo stranicu
     driver.get("https://the-internet.herokuapp.com/drag_and_drop")
 
     wait = WebDriverWait(driver, 20)
