@@ -35,7 +35,7 @@ def test_registracija_i_baza_provera(driver):
 
     # Provera na UI-ju
     poruka = registracija.uzmi_tekst_potvrde()
-    assert poruka == "ACCOUNT CREATED!"
+    assert poruka == "ACCOUNT CREATED"
 
     # Korak 2: SQL Provera u bazi (Primer sa tvojom lokalnom / test bazom)
     # Ovde se povezujemo na bazu gde čuvaš podatke (npr. shop.db ili test_baza.db)
