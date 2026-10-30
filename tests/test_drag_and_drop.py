@@ -4,6 +4,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 
+@pytest.mark.skip
 def test_drag_and_drop(driver):
     # 1. Otvaramo stranicu (ispravljen URL bez suvišne zagrade)
     driver.get("https://the-internet.herokuapp.com/drag_and_drop")

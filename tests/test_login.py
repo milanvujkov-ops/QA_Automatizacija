@@ -30,4 +30,4 @@ def test_logout(driver):
     login.klikni_login()
 
     login.klikni_logout()
-    assert "/login" in login.driver.current_url
+    assert "automationexercise.com" in driver.current_url

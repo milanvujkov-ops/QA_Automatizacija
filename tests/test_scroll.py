@@ -11,6 +11,8 @@ def test_scroll(driver):
 
     # 2. Pronalazimo footer na dnu stranice preko ID-ja
     footer = wait.until(EC.presence_of_element_located((By.ID, "page-footer")))
+    driver.execute_script("arguments[0].scrollIntoView(true);", footer)
+    actions.move_to_element(footer).perform()
     
     # 3. Prelazimo mišem / skrolujemo do footera koristeći ActionChains
     actions = ActionChains(driver)
