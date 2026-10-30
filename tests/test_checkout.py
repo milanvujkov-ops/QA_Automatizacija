@@ -12,14 +12,14 @@ fake = Faker()
 
 @pytest.mark.smoke
 def test_kompletna_kupovina(driver):
-    wait = WebDriverWait(driver, 255) # Dajemo mu komotnih 25 sekundi za headless
+    wait = WebDriverWait(driver, 25)
 
     products_page = ProductsPage(driver)
     cart_page = CartPage(driver)
     registracija = RegistracijaPage(driver)
     checkout_page = CheckoutPage(driver)
 
-    # 1. Registracija novog korisnika sa čekanjem
+    # 1. Registracija novog korisnika
     registracija.otvori()
     
     # Čekamo da se polje za ime pojavi pre unosa
