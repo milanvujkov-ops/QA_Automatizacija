@@ -1,5 +1,6 @@
 import pytest
 from selenium.webdriver.common.by import By
+from selenium.webdriver.firefox.webdriver import WebDriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from pages.products_page import ProductsPage
@@ -11,7 +12,7 @@ from faker import Faker
 fake = Faker()
 
 @pytest.mark.smoke
-def test_kompletna_kupovina(driver):
+def test_kompletna_kupovina(driver: WebDriver):
     # Definisemo pametno čekanje od 20 sekundi za headless brauzer
     wait = WebDriverWait(driver, 20)
 
@@ -42,4 +43,4 @@ def test_kompletna_kupovina(driver):
 
     # 3. Prelazimo u korpu i pokrećemo checkout
     cart_page.otvori_korpu()
-    cart_page.idi_na_checkout()  # Obavezno proveri tačan naziv metode u CartPage klasi!
+    cart_page.idi_na_checkout()
