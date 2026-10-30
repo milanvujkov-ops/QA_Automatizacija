@@ -34,6 +34,6 @@ def test_kompletna_kupovina(driver):
     wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, ".features_items")))
     products_page.dodaj_prvi_proizvod_u_korpu()
 
-    # 3. Prelazak u korpu i poziv naše nove metode za checkout
+    # 3. Prelazimo u korpu i radimo checkout
     cart_page.otvori_korpu()
     cart_page.idi_na_checkout()
