@@ -29,11 +29,11 @@ def test_kompletna_kupovina(driver):
     registracija.unesi_email(nasumicni_email)
     registracija.klikni_signup()
 
-    # 2. Dodavanje u korpu sa čekanjem
+    # 2. Dodavanje u korpu sa stabilnim čekanjem
     products_page.otvori()
     wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, ".features_items")))
     products_page.dodaj_prvi_proizvod_u_korpu()
 
-    # 3. Prelazak u korpu i checkout
+    # 3. Prelazak u korpu i poziv naše nove metode za checkout
     cart_page.otvori_korpu()
-    cart_page.idi_na_checkout()  # <--- Proveri da li je ovo tačan naziv iz cart_page.py
+    cart_page.idi_na_checkout()
