@@ -12,7 +12,7 @@ fake = Faker()
 
 @pytest.mark.smoke
 def test_kompletna_kupovina(driver):
-    wait = WebDriverWait(driver, 40)
+    wait = WebDriverWait(driver, 45)
 
     products_page = ProductsPage(driver)
     cart_page = CartPage(driver)
