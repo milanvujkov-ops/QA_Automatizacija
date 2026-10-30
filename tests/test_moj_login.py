@@ -1,64 +1,31 @@
-import pytest
-from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-# 1. PAGE OBJECT KLASA FOR LOGIN
-class LoginPage:
-    def __init__(self, driver):
-        self.driver = driver
-        self.url = "https://practicetestautomation.com/practice-test-login/"
-        
-        # Lokatori elemenata
-        self.polje_korisnicko_ime = (By.ID, "username")
-        self.polje_lozinka = (By.ID, "password")
-        self.dugme_za_prijavu = (By.ID, "submit")
+def test_pogresna_prijava_sa_cekanjem(driver):
+    driver.get("https://the-internet.herokuapp.com/login")
 
-    def otvori(self):
-        self.driver.get(self.url)
+    wait = WebDriverWait(driver, 10)
 
-    def prijavi_se(self, username, password):
-        # Unosimo ime, lozinku i klikćemo na dugme
-        self.driver.find_element(*self.polje_korisnicko_ime).send_keys(username)
-        self.driver.find_element(*self.polje_lozinka).send_keys(password)
-        self.driver.find_element(*self.dugme_za_prijavu).click()
+    # 1. Namerno unosimo pogrešno korisničko ime i lozinku
+    username_field = wait.until(
+        EC.visibility_of_element_located((By.ID, "username"))
+    )
+    username_field.send_keys("nepoznati_korisnik")
 
+    password_field = wait.until(
+        EC.visibility_of_element_located((By.ID, "password"))
+    )
+    password_field.send_keys("PogresnaLozinka123")
 
-# 2. FIXTURE ZA OTVALJANJE I ZATVARANJE BROWSERA
-@pytest.fixture
-def driver():
-    browser = webdriver.Chrome()
-    yield browser
-    browser.quit()
+    # 2. Klikćemo na login
+    login_button = wait.until(
+        EC.element_to_be_clickable((By.CSS_SELECTOR, "button.radius"))
+    )
+    login_button.click()
 
-
-# 3. TEST FUNKCIJA
-def test_uspjesna_prijava(driver):
-    login_stranica = LoginPage(driver)
-    
-    # 1. Otvaramo stranicu
-    login_stranica.otvori()
-    
-    # 2. Prijavljujemo se sa validnim podacima
-    login_stranica.prijavi_se("student", "Password123")
-    
-    # 3. Proveravamo da li nas je preusmerilo na stranicu uspešne prijave
-    assert "logged-in-successfully" in driver.current_url
-
-# 4. TEST POGRESNA PRIJAVA
-def test_pogresna_prijava(driver):
-    login_stranica = LoginPage(driver)
-
-    # 1. Otvaramo stranicu
-    login_stranica.otvori()
-
-    # 2. Prijavljujemo se sa pogrešnim podacima
-    login_stranica.prijavi_se("student", "PogresnaPassword123")
-
-    # 3. Pogrešna prijava
-    assert "logged-in-successfully" not in driver.current_url
-    
-
-
-
+    # 3. Čekamo poruku o grešci koja se pojavljuje na vrhu stranice
+    error_message = wait.until(
+        EC.visibility_of_element_located((By.ID, "flash"))
+    )
+    assert error_message.is_displayed()
