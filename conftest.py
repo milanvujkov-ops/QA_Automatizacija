@@ -5,9 +5,10 @@ from selenium import webdriver
 def driver():
     options = webdriver.FirefoxOptions()
     options.add_argument("--headless")
-    options.add_argument("--width=1920")
-    options.add_argument("--height=1080")
-    
+
     browser = webdriver.Firefox(options=options)
+    # Ovde namestamo dimenzije sigurno bez greske:
+    browser.set_window_size(1920, 1080)
+    
     yield browser
     browser.quit()
