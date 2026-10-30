@@ -10,6 +10,7 @@ class CartPage:
         # Lokatori za Korpu
         self.cart_link = (By.CSS_SELECTOR, 'a[href="/view_cart"]')
         self.cart_items = (By.CSS_SELECTOR, '#cart_info_table tbody tr')
+        self.checkout_btn = (By.CSS_SELECTOR, '.check_out') # Lokator za dugme Proceed To Checkout
 
     def ukloni_reklame(self):
         self.driver.execute_script("""
@@ -27,3 +28,7 @@ class CartPage:
     def uzmi_broj_proizvoda_u_korpi(self):
         proizvodi = self.wait.until(EC.presence_of_all_elements_located(self.cart_items))
         return len(proizvodi)
+
+    def idi_na_checkout(self):
+        btn = self.wait.until(EC.element_to_be_clickable(self.checkout_btn))
+        self.driver.execute_script("arguments[0].click();", btn)

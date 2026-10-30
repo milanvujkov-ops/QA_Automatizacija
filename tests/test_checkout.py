@@ -1,6 +1,5 @@
 import pytest
 from selenium.webdriver.common.by import By
-from selenium.webdriver.firefox.webdriver import WebDriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from pages.products_page import ProductsPage
@@ -12,7 +11,7 @@ from faker import Faker
 fake = Faker()
 
 @pytest.mark.smoke
-def test_kompletna_kupovina(driver: WebDriver):
+def test_kompletna_kupovina(driver):
     wait = WebDriverWait(driver, 20)
 
     products_page = ProductsPage(driver)
@@ -20,7 +19,7 @@ def test_kompletna_kupovina(driver: WebDriver):
     registracija = RegistracijaPage(driver)
     checkout_page = CheckoutPage(driver)
 
-    # 1. Registracija
+    # 1. Registracija novog korisnika
     nasumicno_ime = fake.first_name()
     nasumicno_prezime = fake.last_name()
     nasumicni_email = fake.email()
@@ -35,6 +34,6 @@ def test_kompletna_kupovina(driver: WebDriver):
     wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, ".features_items")))
     products_page.dodaj_prvi_proizvod_u_korpu()
 
-    # 3. Prelazak u korpu i checkout (proveri tačan naziv metode!)
+    # 3. Prelazak u korpu i checkout
     cart_page.otvori_korpu()
-    cart_page.idi_na_checkout()  # <--- Ovde mora da piše tačno ime metode iz CartPage klase!
+    cart_page.idi_na_checkout()  # <--- Proveri da li je ovo tačan naziv iz cart_page.py
