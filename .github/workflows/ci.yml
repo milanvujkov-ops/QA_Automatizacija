@@ -20,7 +20,7 @@ jobs:
       - name: Instalacija biblioteka
         run: |
           pip install --upgrade pip
-          pip install pytest selenium pytest-html
+          pip install pytest selenium pytest-html faker
 
       - name: Pokretanje testova
         run: pytest --html=report.html --self-contained-html
