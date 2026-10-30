@@ -20,7 +20,7 @@ def test_kompletna_kupovina(driver: WebDriver):
     registracija = RegistracijaPage(driver)
     checkout_page = CheckoutPage(driver)
 
-    # 1. Registrujemo novog korisnika
+    # 1. Registracija
     nasumicno_ime = fake.first_name()
     nasumicno_prezime = fake.last_name()
     nasumicni_email = fake.email()
@@ -30,11 +30,11 @@ def test_kompletna_kupovina(driver: WebDriver):
     registracija.unesi_email(nasumicni_email)
     registracija.klikni_signup()
 
-    # 2. Prelazimo na proizvode i dodajemo u korpu
+    # 2. Dodavanje u korpu sa čekanjem
     products_page.otvori()
     wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, ".features_items")))
     products_page.dodaj_prvi_proizvod_u_korpu()
 
-    # 3. Prelazimo u korpu i radimo checkout
+    # 3. Prelazak u korpu i checkout (proveri tačan naziv metode!)
     cart_page.otvori_korpu()
-    cart_page.idi_na_checkout()
+    cart_page.idi_na_checkout()  # <--- Ovde mora da piše tačno ime metode iz CartPage klase!
