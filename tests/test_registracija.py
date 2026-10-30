@@ -35,4 +35,4 @@ def test_registracija_korisnika(driver):
     registracija.klikni_create_account()
 
     poruka = registracija.uzmi_tekst_potvrde()
-    assert "ACCOUNT CREATED" in poruka
+    assert "ACCOUNT CREATED!" in poruka
