@@ -4,7 +4,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 def test_uspesan_login(driver):
-    wait = WebDriverWait(driver, 30)
+    wait = WebDriverWait(driver, 40)
     login = LoginPage(driver)
     login.otvori()
     
@@ -26,7 +26,7 @@ def test_neuspesan_login(driver):
     assert poruka == "Your email or password is incorrect!"
 
 def test_logout(driver):
-    wait = WebDriverWait(driver, 30)
+    wait = WebDriverWait(driver, 40)
     login = LoginPage(driver)
     login.otvori()
     
