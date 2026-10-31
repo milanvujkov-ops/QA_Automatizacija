@@ -7,7 +7,6 @@ def driver():
     options.add_argument("--headless")
 
     browser = webdriver.Firefox(options=options)
-    # Ovde namestamo dimenzije sigurno bez greske:
     browser.set_window_size(1920, 1080)
     
     yield browser
