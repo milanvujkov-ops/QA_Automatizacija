@@ -40,14 +40,12 @@ def test_create_user():
     
     print("\n[INFO] POST zahtev uspešan! Podaci uspešno poslati na server.")
 
-    # Definisali smo listu korisnika koje testiramo
 @pytest.mark.parametrize("ime, korisnicko_ime, email", [
     ("Milan Nikolić", "milan_qa", "milan@test.com"),
     ("Ana Petrović", "ana_dev", "ana@test.com"),
     ("Stefan Jovanović", "stefan_test", "stefan@test.com")
 ])
 def test_create_multiple_users(ime, korisnicko_ime, email):
-    # ⚠️ OVDE JE FALILA OVA LINIJA KOJA DEFINIŠE URL:
     url = "https://httpbin.org/post"
     
     user_data = {
@@ -69,7 +67,6 @@ def test_create_multiple_users(ime, korisnicko_ime, email):
     
     print(f"\n[INFO] Uspešno testiran korisnik: {ime}")
 
-
 def test_error_status_code():
     url = "https://httpbin.org/status/400"
     
@@ -78,7 +75,7 @@ def test_error_status_code():
     assert response.status_code == 400, f"Očekivali smo grešku 400, a dobili status: {response.status_code}"
     
     print("\n[INFO] Test greške uspešno prošao! Server je ispravno vratio status 400.")
-    
+
 @pytest.fixture
 def uzorak_novog_korisnika():
     # Fixture priprema podatke unapred
