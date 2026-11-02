@@ -78,3 +78,26 @@ def test_error_status_code():
     assert response.status_code == 400, f"Očekivali smo grešku 400, a dobili status: {response.status_code}"
     
     print("\n[INFO] Test greške uspešno prošao! Server je ispravno vratio status 400.")
+    
+@pytest.fixture
+def uzorak_novog_korisnika():
+    # Fixture priprema podatke unapred
+    podaci = {
+        "name": "Milan Fixture",
+        "username": "milan_f",
+        "email": "milan.fixture@test.com"
+    }
+    print("\n[INFO] Fixture je pripremio test podatke!")
+    return podaci
+
+def test_sa_fixture_podacima(uzorak_novog_korisnika):
+    url = "https://httpbin.org/post"
+    
+    # Test direktno uzima pripremljene podatke iz fixture-a
+    response = requests.post(url, json=uzorak_novog_korisnika)
+    
+    assert response.status_code == 200
+    
+    response_data = response.json()
+    assert response_data["json"]["name"] == uzorak_novog_korisnika["name"]
+    print("[INFO] Test sa fixture-om je uspešno prošao!")
