@@ -24,13 +24,11 @@ def test_kompletna_kupovina(driver):
     wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "input[data-qa='signup-name']")))
 
     nasumicno_ime = fake.first_name()
-    nasumicno_prezime = fake.last_name()
-    nasumicni_email = fake.email()
+    nasumicno_email = fake.email()
 
     registracija.unesi_ime(nasumicno_ime)
-    registracija.unesi_email(nasumicni_email)
+    registracija.unesi_email(nasumicno_email)
     registracija.klikni_signup()
-
     # DODAJ OVO: Popunjavanje nastavka registracije ako ga stranica zahteva
     registracija.unesi_lozinku("MojaLozinka123")
     registracija.klikni_register_submit() # ili metoda koja završava kreiranje naloga
