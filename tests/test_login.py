@@ -2,14 +2,25 @@ from pages.login_page import LoginPage
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from faker import Faker
 
 def test_uspesan_login(driver):
+    fake = Faker()
+    email = fake.email()
+    password = "TvojaPravaLozinka123"
+    
+    # 1. Prvo registrujemo korisnika da bi sigurno postojao u bazi
+    # (Ako imaš SignupPage, pozovi je ovde, npr:
+    # signup = SignupPage(driver)
+    # signup.registruj_novog_korisnika(email, password)
+    # )
+    
     wait = WebDriverWait(driver, 40)
     login = LoginPage(driver)
     login.otvori()
     
-    login.unesi_email("milan_test_2026_99@gmail.com")
-    login.unesi_lozinku("TvojaPravaLozinka123")
+    login.unesi_email(email)
+    login.unesi_lozinku(password)
     login.klikni_login()
     
     logged_in_user = wait.until(EC.presence_of_element_located((By.XPATH, '//a[contains(text(), "Logged in as")]')))
