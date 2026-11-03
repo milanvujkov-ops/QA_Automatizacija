@@ -23,4 +23,4 @@ jobs:
           pip install pytest selenium pytest-html faker
 
       - name: Pokretanje testova
-        run: pytest --html=report.html --self-contained-html
+        run: pytest tests/ --html=report.html --self-contained-html
