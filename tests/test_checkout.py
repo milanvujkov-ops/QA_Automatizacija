@@ -31,6 +31,10 @@ def test_kompletna_kupovina(driver):
     registracija.unesi_email(nasumicni_email)
     registracija.klikni_signup()
 
+    # DODAJ OVO: Popunjavanje nastavka registracije ako ga stranica zahteva
+    registracija.unesi_lozinku("MojaLozinka123")
+    registracija.klikni_register_submit() # ili metoda koja završava kreiranje naloga
+
     # 2. Dodavanje u korpu sa stabilnim čekanjem
     products_page.otvori()
     wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, ".features_items")))
