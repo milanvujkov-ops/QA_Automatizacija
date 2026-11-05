@@ -10,10 +10,10 @@ class RegistracijaPage:
         self.wait = WebDriverWait(driver, 30)
         self.url = "https://automationexercise.com/login"
 
-        # Lokatori - Prvi korak
-        self.ime_input = (By.CSS_SELECTOR, 'input[data-qa="signup-name"]')
-        self.email_input = (By.CSS_SELECTOR, 'input[data-qa="signup-email"]')
-        self.signup_button = (By.CSS_SELECTOR, 'button[data-qa="signup-button"]')
+        # Lokatori - Prvi korak (stabilniji XPATH za CI)
+        self.ime_input = (By.XPATH, '//input[@data-qa="signup-name"]')
+        self.email_input = (By.XPATH, '//input[@data-qa="signup-email"]')
+        self.signup_button = (By.XPATH, '//button[@data-qa="signup-button"]')
         
         # Lokatori - Drugi korak
         self.gender_mr_radio = (By.ID, 'id_gender1')
