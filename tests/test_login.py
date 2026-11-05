@@ -25,7 +25,7 @@ def test_uspesan_login(driver):
     login.unesi_lozinku("TvojaPravaLozinka123")
     login.klikni_login()
     
-    logged_in_user = wait.until(EC.presence_of_element_located((By.XPATH, '//a[contains(text(), "Logged in as")]')))
+    logged_in_user = wait.until(EC.visibility_of_element_located((By.XPATH, '//a[contains(text(), "Logged in as")]')))
     assert logged_in_user.is_displayed()
 
 def test_neuspesan_login(driver):
@@ -40,15 +40,24 @@ def test_neuspesan_login(driver):
 
 def test_logout(driver):
     wait = WebDriverWait(driver, 40)
+    registracija = RegistracijaPage(driver)
     login = LoginPage(driver)
-    login.otvori()
     
-    login.unesi_email("milan_test_2026_99@gmail.com")
+    # I ovde prvo registrujemo unikatnog korisnika da bi login bio 100% uspešan
+    email = fake.email()
+    registracija.otvori()
+    registracija.unesi_ime("TestUserLogout")
+    registracija.unesi_email(email)
+    registracija.klikni_signup()
+    
+    # Radimo login sa tim novim nalogom
+    login.otvori()
+    login.unesi_email(email)
     login.unesi_lozinku("TvojaPravaLozinka123")
     login.klikni_login()
     
-    wait.until(EC.presence_of_element_located((By.XPATH, '//a[contains(text(), "Logged in as")]')))
+    wait.until(EC.visibility_of_element_located((By.XPATH, '//a[contains(text(), "Logged in as")]')))
     login.klikni_logout()
     
-    login_dugme = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'button[data-qa="login-button"]')))
+    login_dugme = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'button[data-qa="login-button"]')))
     assert login_dugme.is_displayed()
