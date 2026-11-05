@@ -21,8 +21,12 @@ def test_kompletna_kupovina(driver):
 
     # 1. Registracija novog korisnika sa unikatnim podacima
     registracija.otvori()
-    wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "input[data-qa='signup-name']")))
-
+    # Sačekaj da se stranica učita i da URL bude tačan
+    wait.until(EC.url_contains("/login"))
+    
+    # Zatim kratko sačekaj da polje za ime bude prisutno u DOM-u
+    wait.until(EC.presence_of_element_located((By.NAME, "name")))
+    
     nasumicno_ime = fake.first_name()
     nasumicno_email = fake.email()
 
