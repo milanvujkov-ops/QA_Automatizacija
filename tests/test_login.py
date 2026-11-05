@@ -46,6 +46,13 @@ def test_logout(driver):
     # I ovde prvo registrujemo unikatnog korisnika da bi login bio 100% uspešan
     email = fake.email()
     registracija.otvori()
+    try:
+        accept_btn = WebDriverWait(driver, 5).until(
+            EC.element_to_be_clickable((By.XPATH, "//p[contains(text(), 'Consent')] | //button[contains(text(), 'Consent')] | //button[@aria-label='Consent']"))
+        )
+        accept_btn.click()
+    except:
+        pass # Ako se prozor ne pojavi, idemo dalje bez problema
     registracija.unesi_ime("TestUserLogout")
     registracija.unesi_email(email)
     registracija.klikni_signup()

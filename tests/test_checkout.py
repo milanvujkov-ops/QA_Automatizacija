@@ -21,6 +21,13 @@ def test_kompletna_kupovina(driver):
 
     # 1. Registracija novog korisnika sa unikatnim podacima
     registracija.otvori()
+    try:
+        accept_btn = WebDriverWait(driver, 5).until(
+            EC.element_to_be_clickable((By.XPATH, "//p[contains(text(), 'Consent')] | //button[contains(text(), 'Consent')] | //button[@aria-label='Consent']"))
+        )
+        accept_btn.click()
+    except:
+        pass # Ako se prozor ne pojavi, idemo dalje bez problema
     wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "input[data-qa='signup-name']")))
 
     nasumicno_ime = fake.first_name()
