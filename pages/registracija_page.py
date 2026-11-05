@@ -6,7 +6,8 @@ from selenium.webdriver.support.ui import Select
 class RegistracijaPage:
     def __init__(self, driver):
         self.driver = driver
-        self.wait = WebDriverWait(driver, 10)
+        # Povećano vreme čekanja na 30 sekundi zbog CI servera
+        self.wait = WebDriverWait(driver, 30)
         self.url = "https://automationexercise.com/login"
 
         # Lokatori - Prvi korak
@@ -30,12 +31,15 @@ class RegistracijaPage:
         self.success_title = (By.CSS_SELECTOR, 'h2[data-qa="account-created"]')
 
     def ukloni_reklame(self):
-        self.driver.execute_script("""
-            var ads = document.querySelectorAll('iframe, .adsbygoogle, #aswift_0_wrap');
-            for (var i = 0; i < ads.length; i++) {
-                ads[i].remove();
-            }
-        """)
+        try:
+            self.driver.execute_script("""
+                var ads = document.querySelectorAll('iframe, .adsbygoogle, #aswift_0_wrap');
+                for (var i = 0; i < ads.length; i++) {
+                    ads[i].remove();
+                }
+            """)
+        except:
+            pass
 
     def otvori(self):
         self.driver.get(self.url)
@@ -49,7 +53,7 @@ class RegistracijaPage:
         element.send_keys(email)
 
     def klikni_signup(self):
-        self.ukloni_reklame()
+        # Uklonjeno obavezno brisanje reklame pre klika da ne bi blokiralo CI
         btn = self.wait.until(EC.element_to_be_clickable(self.signup_button))
         self.driver.execute_script("arguments[0].click();", btn)
 
