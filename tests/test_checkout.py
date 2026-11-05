@@ -37,13 +37,9 @@ def test_kompletna_kupovina(driver):
 
     # 3. Prelazak u korpu i checkout
     cart_page.otvori_korpu()
-    cart_page.idi_na_checkout()
     
-    # 2. Dodavanje u korpu sa stabilnim čekanjem
-    products_page.otvori()
-    wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, ".features_items")))
-    products_page.dodaj_prvi_proizvod_u_korpu()
-
-    # 3. Prelazak u korpu i checkout
-    cart_page.otvori_korpu()
-    cart_page.idi_na_checkout()
+    # Sačekaj da dugme za checkout bude klikabilno pre klika
+    checkout_dugme = wait.until(
+        EC.element_to_be_clickable((By.CSS_SELECTOR, ".check_out"))
+    )
+    checkout_dugme.click()
