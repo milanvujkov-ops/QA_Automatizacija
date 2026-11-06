@@ -43,6 +43,14 @@ class RegistracijaPage:
 
     def otvori(self):
         self.driver.get(self.url)
+        # Automatsko prihvatanje kolačića na CI serveru ako se pojavi GDPR prozor
+        try:
+            cookie_button = WebDriverWait(self.driver, 5).until(
+                EC.element_to_be_clickable((By.XPATH, "//p[contains(text(), 'Consent')] | //button[contains(text(), 'Consent')] | //div[contains(@class, 'fc-dialog')]//button[contains(@class, 'fc-primary-button')]"))
+            )
+            cookie_button.click()
+        except:
+            pass # Ako nema kolačića, idemo dalje normalno
 
     def unesi_ime(self, ime):
         element = self.wait.until(EC.visibility_of_element_located(self.ime_input))
