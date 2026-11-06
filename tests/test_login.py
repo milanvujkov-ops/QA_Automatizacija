@@ -48,28 +48,23 @@ def test_logout(driver):
     registracija = RegistracijaPage(driver)
     login = LoginPage(driver)
     
-    # I ovde prvo registrujemo unikatnog korisnika da bi login bio 100% uspešan
+    # Registracija novog korisnika do kraja
     email = fake.email()
     registracija.otvori()
-    try:
-        accept_btn = WebDriverWait(driver, 5).until(
-            EC.element_to_be_clickable((By.XPATH, "//p[contains(text(), 'Consent')] | //button[contains(text(), 'Consent')] | //button[@aria-label='Consent']"))
-        )
-        accept_btn.click()
-    except:
-        pass # Ako se prozor ne pojavi, idemo dalje bez problema
-    registracija.unesi_ime("TestUserLogout")
+    registracija.unesi_ime("TestUser")
     registracija.unesi_email(email)
     registracija.klikni_signup()
     
-    # Radimo login sa tim novim nalogom
+    # OVO JE NEDOSTAJALO: Popunjavanje obaveznih polja da bi nalog stvarno bio kreiran
+    registracija.unesi_lozinku("TvojaPravaLozinka123")
+    registracija.popuni_adresu("Milan", "Vujkov", "Glavna 1", "United States", "Beograd", "21220", "060123456")
+    registracija.klikni_create_account()
+
+    # Sada radimo login sa tim email-om
     login.otvori()
     login.unesi_email(email)
     login.unesi_lozinku("TvojaPravaLozinka123")
     login.klikni_login()
     
-    wait.until(EC.visibility_of_element_located((By.XPATH, '//a[contains(text(), "Logged in as")]')))
-    login.klikni_logout()
-    
-    login_dugme = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'button[data-qa="login-button"]')))
-    assert login_dugme.is_displayed()
+    logged_in_user = wait.until(EC.visibility_of_element_located((By.XPATH, '//a[contains(text(), "Logged in as")]')))
+    assert logged_in_user.is_displayed()

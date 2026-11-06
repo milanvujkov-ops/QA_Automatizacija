@@ -19,14 +19,8 @@ def test_kompletna_kupovina(driver):
     registracija = RegistracijaPage(driver)
     checkout_page = CheckoutPage(driver)
 
-    # 1. Registracija novog korisnika sa unikatnim podacima
+    # 1. Registracija novog korisnika do kraja
     registracija.otvori()
-    # Sačekaj da se stranica učita i da URL bude tačan
-    wait.until(EC.url_contains("/login"))
-    
-    # Zatim kratko sačekaj da polje za ime bude prisutno u DOM-u
-    wait.until(EC.presence_of_element_located((By.NAME, "name")))
-    
     nasumicno_ime = fake.first_name()
     nasumicno_email = fake.email()
 
@@ -34,17 +28,19 @@ def test_kompletna_kupovina(driver):
     registracija.unesi_email(nasumicno_email)
     registracija.klikni_signup()
 
-    # 2. Dodavanje u korpu sa stabilnim čekanjem
+    # Završetak registracije
+    registracija.unesi_lozinku("TvojaPravaLozinka123")
+    registracija.popuni_adresu("Milan", "Vujkov", "Glavna 1", "United States", "Beograd", "21220", "060123456")
+    registracija.klikni_create_account()
+
+    # 2. Dodavanje u korpu
     products_page.otvori()
     wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".features_items")))
     products_page.dodaj_prvi_proizvod_u_korpu()
 
-    # 3. Prelazak u korpu i stabilan checkout
+    # 3. Prelazak u korpu i checkout
     cart_page.otvori_korpu()
-    
-    checkout_dugme = wait.until(
-        EC.element_to_be_clickable((By.CSS_SELECTOR, ".check_out"))
-    )
+    checkout_dugme = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, ".check_out")))
     checkout_dugme.click()
     
     # Možeš dodati i poziv checkout_page metoda ukoliko ih koristiš za dalji nastavak
