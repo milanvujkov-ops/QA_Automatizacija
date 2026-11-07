@@ -1,6 +1,7 @@
 import pytest
 import os
 from datetime import datetime
+import pytest_html
 from selenium import webdriver
 
 # 1. Tvoja postojeća fixture za Firefox (ostaje tu gde jeste)
