@@ -5,18 +5,22 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-@pytest.mark.skip(reason="Privremeno preskoceno dok ne sredimo elemente na CI")
 def test_uspesan_login(driver):
     wait = WebDriverWait(driver, 30)
     login = LoginPage(driver)
     
     login.otvori()
-    # Koristimo stabilan testni nalog koji sigurno postoji
     login.unesi_email("milan_test_2026_99@gmail.com")
     login.unesi_lozinku("TvojaPravaLozinka123")
     login.klikni_login()
     
-    logged_in_user = wait.until(EC.visibility_of_element_located((By.XPATH, '//a[contains(text(), "Logged in as")]')))
+    # Prvo sačekamo da se preusmeravanje sa login forme završi
+    wait.until(EC.url_changes(driver.current_url))
+    
+    # Zatim proveravamo vidljivost poruke o uspešnoj prijavi
+    logged_in_user = wait.until(
+        EC.visibility_of_element_located((By.XPATH, '//*[contains(translate(text(), "LOGGED IN AS", "logged in as"), "logged in as")]'))
+    )
     assert logged_in_user.is_displayed()
 
 def test_neuspesan_login(driver):
@@ -29,7 +33,6 @@ def test_neuspesan_login(driver):
     poruka = login.uzmi_poruku_greske()
     assert poruka == "Your email or password is incorrect!"
     
-@pytest.mark.skip(reason="Privremeno preskoceno dok ne sredimo elemente na CI")
 def test_logout(driver):
     wait = WebDriverWait(driver, 30)
     login = LoginPage(driver)
