@@ -7,9 +7,9 @@ from selenium import webdriver
 # 1. Tvoja postojeća fixture za Firefox (ostaje tu gde jeste)
 @pytest.fixture
 def driver():
-    # Ovde stoji tvoja inicijalizacija firefox driver-a
     options = webdriver.FirefoxOptions()
-    # ... tvoja podešavanja ...
+    options.add_argument("--headless")  # <--- OVO je ključno za GitHub Actions!
+    
     driver = webdriver.Firefox(options=options)
     yield driver
     driver.quit()
