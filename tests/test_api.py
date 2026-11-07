@@ -88,13 +88,34 @@ def uzorak_novog_korisnika():
     return podaci
 
 def test_sa_fixture_podacima(uzorak_novog_korisnika):
-    url = "https://httpbin.org/post"
+    url = "https://httpbin.org/anything"  # <--- Ovde stavimo 'anything' umesto 'post'
     
-    # Test direktno uzima pripremljene podatke iz fixture-a
     response = requests.post(url, json=uzorak_novog_korisnika)
     
-    assert response.status_code == 200
+    assert response.status_code == 200, f"Greška, status je: {response.status_code}"
     
     response_data = response.json()
     assert response_data["json"]["name"] == uzorak_novog_korisnika["name"]
     print("[INFO] Test sa fixture-om je uspešno prošao!")
+
+    def test_api_sa_zaglavljem_i_autorizacijom():
+    # Korišćenje httpbin endpoint-a za proveru poslatih zaglavlja (Headers)
+        url = "https://httpbin.org/headers"
+    
+    # Simulišemo API ključ ili Bearer token u zaglavlju zahteva
+    custom_headers = {
+        "Authorization": "Bearer moj_tajni_api_token_12345",
+        "X-Client-Type": "Automation-Python"
+    }
+    
+    response = requests.get(url, headers=custom_headers)
+    
+    assert response.status_code == 200, f"Greška, status je: {response.status_code}"
+    
+    response_data = response.json()
+    
+    # Proveravamo da li je server uspešno primio naše zaglavlje
+    assert response_data["headers"]["Authorization"] == "Bearer moj_tajni_api_token_12345"
+    assert response_data["headers"]["X-Client-Type"] == "Automation-Python"
+    
+    print("\n[INFO] Test sa custom zaglavljem i autorizacijom uspešno prošao!")
