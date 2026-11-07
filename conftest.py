@@ -8,7 +8,9 @@ from selenium import webdriver
 @pytest.fixture
 def driver():
     options = webdriver.FirefoxOptions()
-    options.add_argument("--headless")  # <--- OVO je ključno za GitHub Actions!
+    options.add_argument("--headless")
+    options.add_argument("--width=1920")   # <--- Dodaj ovo
+    options.add_argument("--height=1080")  # <--- Dodaj ovo
     
     driver = webdriver.Firefox(options=options)
     yield driver
