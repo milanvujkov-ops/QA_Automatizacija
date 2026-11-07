@@ -10,17 +10,13 @@ def test_uspesan_login(driver):
     login = LoginPage(driver)
     
     login.otvori()
+    login.prihvati_kolacice()  # <--- Dodajemo ovaj korak ovde
+    
     login.unesi_email("milan_test_2026_99@gmail.com")
     login.unesi_lozinku("TvojaPravaLozinka123")
+    login.klikni_login()
     
-    # Siguran klik preko JavaScript-a ako slučajno neka reklama/iframe blokira element
-    login_btn = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'button[data-qa="login-button"]')))
-    driver.execute_script("arguments[0].click();", login_btn)
-    
-    # Čekamo da se URL promeni sa login stranice na početnu/profilnu
     wait.until(EC.url_changes(driver.current_url))
-    
-    # Proveravamo da se pojavio tekst "Logged in as"
     logged_in_user = wait.until(
         EC.visibility_of_element_located((By.XPATH, '//a[contains(text(), "Logged in as")]'))
     )
@@ -50,3 +46,15 @@ def test_logout(driver):
     
     login_dugme = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'button[data-qa="login-button"]')))
     assert login_dugme.is_displayed()
+
+def prihvati_kolacice(self):
+    try:
+        # Čekamo do 5 sekundi ako iskoči GDPR prozor
+        wait = WebDriverWait(self.driver, 5)
+        consent_btn = wait.until(
+            EC.element_to_be_clickable((By.XPATH, '//button[contains(@aria-label, "Consent") or contains(text(), "Consent")]'))
+        )
+        consent_btn.click()
+    except:
+        # Ako prozor ne iskoči, samo nastavljamo dalje
+        pass
