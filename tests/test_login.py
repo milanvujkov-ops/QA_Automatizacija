@@ -12,14 +12,17 @@ def test_uspesan_login(driver):
     login.otvori()
     login.unesi_email("milan_test_2026_99@gmail.com")
     login.unesi_lozinku("TvojaPravaLozinka123")
-    login.klikni_login()
     
-    # Prvo sačekamo da se preusmeravanje sa login forme završi
+    # Siguran klik preko JavaScript-a ako slučajno neka reklama/iframe blokira element
+    login_btn = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'button[data-qa="login-button"]')))
+    driver.execute_script("arguments[0].click();", login_btn)
+    
+    # Čekamo da se URL promeni sa login stranice na početnu/profilnu
     wait.until(EC.url_changes(driver.current_url))
     
-    # Zatim proveravamo vidljivost poruke o uspešnoj prijavi
+    # Proveravamo da se pojavio tekst "Logged in as"
     logged_in_user = wait.until(
-        EC.visibility_of_element_located((By.XPATH, '//*[contains(translate(text(), "LOGGED IN AS", "logged in as"), "logged in as")]'))
+        EC.visibility_of_element_located((By.XPATH, '//a[contains(text(), "Logged in as")]'))
     )
     assert logged_in_user.is_displayed()
 
