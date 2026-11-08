@@ -4,17 +4,18 @@ from datetime import datetime
 import pytest_html
 from selenium import webdriver
 
-# 1. Tvoja postojeća fixture za Firefox (ostaje tu gde jeste)
 @pytest.fixture
 def driver():
-    # ... ovde je tvoje pokretanje Firefox/Chrome drajvera ...
+    options = Options()
+    options.add_argument("--headless")
     
-    # Dodaj ove dve linije pre nego što vratiš driver:
-    driver.set_window_size(1920, 1080)
-    driver.implicitly_wait(10)  # Čeka do 10 sekundi za svaki element automatski
+    # Inicijalizacija drajvera
+    driver_instance = webdriver.Firefox(options=options)
+    driver_instance.set_window_size(1920, 1080)
     
-    yield driver
-    driver.quit()
+    yield driver_instance
+    
+    driver_instance.quit()
 
 # 2. Novi dodatak za automatske skrinšotove pri padu testa i HTML izveštaje
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)
