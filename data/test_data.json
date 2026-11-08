@@ -1,0 +1,5 @@
+[
+  {"korisnik": "milan_admin", "ocekivani_status": 200, "rola": "admin"},
+  {"korisnik": "test_user_1", "ocekivani_status": 200, "rola": "qa"},
+  {"korisnik": "gost_korisnik", "ocekivani_status": 200, "rola": "viewer"}
+]
