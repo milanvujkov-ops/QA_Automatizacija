@@ -3,6 +3,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import Select
 
+from conftest import driver
+
 class RegistracijaPage:
     def __init__(self, driver):
         self.driver = driver
@@ -98,3 +100,15 @@ class RegistracijaPage:
     def uzmi_tekst_potvrde(self):
         element = self.wait.until(EC.visibility_of_element_located(self.success_title))
         return element.text
+
+    # Za klik na dugme:
+    element = WebDriverWait(driver, 10).until(
+        EC.element_to_be_clickable((By.ID, "tvoj_id"))
+    )
+    element.click()
+
+    # Za unos teksta:
+    input_field = WebDriverWait(driver, 10).until(
+        EC.visibility_of_element_located((By.ID, "tvoj_id"))
+    )
+    input_field.send_keys("tekst")
