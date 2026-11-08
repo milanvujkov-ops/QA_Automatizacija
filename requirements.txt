@@ -1,2 +1,6 @@
 requests
 python-dotenv
+pytest
+selenium
+pytest-html
+faker
