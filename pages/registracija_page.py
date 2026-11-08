@@ -103,7 +103,7 @@ class RegistracijaPage:
 
     # Za klik na dugme:
     element = WebDriverWait(driver, 10).until(
-        EC.element_to_be_clickable((By.ID, "tvoj_id"))
+            EC.element_to_be_clickable((By.ID, "tvoj_id"))
     )
     element.click()
 
