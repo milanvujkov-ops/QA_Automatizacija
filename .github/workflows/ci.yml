@@ -23,4 +23,8 @@ jobs:
           pip install -r requirements.txt
 
       - name: Pokretanje testova
+        env:
+          BASE_URL: https://httpbin.org
+          TEST_USER: milan_admin
+          TEST_ROLE: admin
         run: python -m pytest tests/ --html=report.html --self-contained-html
