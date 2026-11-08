@@ -7,12 +7,12 @@ from selenium import webdriver
 # 1. Tvoja postojeća fixture za Firefox (ostaje tu gde jeste)
 @pytest.fixture
 def driver():
-    options = webdriver.FirefoxOptions()
-    options.add_argument("--headless")
-    options.add_argument("--width=1920")   # <--- Dodaj ovo
-    options.add_argument("--height=1080")  # <--- Dodaj ovo
+    # ... ovde je tvoje pokretanje Firefox/Chrome drajvera ...
     
-    driver = webdriver.Firefox(options=options)
+    # Dodaj ove dve linije pre nego što vratiš driver:
+    driver.set_window_size(1920, 1080)
+    driver.implicitly_wait(10)  # Čeka do 10 sekundi za svaki element automatski
+    
     yield driver
     driver.quit()
 
