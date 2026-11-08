@@ -1,5 +1,4 @@
-from ssl import Options
-
+from selenium.webdriver.firefox.options import Options
 import pytest
 import os
 from datetime import datetime
@@ -19,7 +18,7 @@ def driver():
     
     driver_instance.quit()
 
-# 2. Novi dodatak za automatske skrinšotove pri padu testa i HTML izveštaje
+# Automatski skrinšotovi pri padu testa i HTML izveštaji
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)
 def pytest_runtest_makereport(item, call):
     outcome = yield
