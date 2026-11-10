@@ -6,10 +6,12 @@ import pytest_html
 from selenium import webdriver
 from selenium.webdriver.firefox.service import Service
 from webdriver_manager.firefox import GeckoDriverManager
+from selenium.webdriver.firefox.options import Options
 
 @pytest.fixture
 def driver():
     options = Options()
+    options.add_argument("--headless") # Obavezno za server / CI okruženje
     # Ako želiš da vidiš prozor dok se test izvršava, zakomentariši ili obriši ovu liniju:
     # options.add_argument("--headless")
     
