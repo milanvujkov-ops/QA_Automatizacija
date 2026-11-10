@@ -4,14 +4,20 @@ import os
 from datetime import datetime
 import pytest_html
 from selenium import webdriver
+from selenium.webdriver.firefox.service import Service
+from webdriver_manager.firefox import GeckoDriverManager
 
 @pytest.fixture
 def driver():
     options = Options()
-    options.add_argument("--headless")
+    # Ako želiš da vidiš prozor dok se test izvršava, zakomentariši ili obriši ovu liniju:
+    # options.add_argument("--headless")
     
-    # Inicijalizacija drajvera
-    driver_instance = webdriver.Firefox(options=options)
+    # Inicijalizacija drajvera preko webdriver-manager-a za Firefox
+    driver_instance = webdriver.Firefox(
+        service=Service(GeckoDriverManager().install()), 
+        options=options
+    )
     driver_instance.set_window_size(1920, 1080)
     
     yield driver_instance

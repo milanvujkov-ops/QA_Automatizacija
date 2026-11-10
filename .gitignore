@@ -20,3 +20,5 @@ venv/
 *.db
 .pytest_cache/
 __pycache__/
+
+logs/
