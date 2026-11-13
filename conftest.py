@@ -11,10 +11,14 @@ from selenium.webdriver.firefox.options import Options
 @pytest.fixture
 def driver():
     options = Options()
-    options.add_argument("--headless") # Obavezno za server / CI okruženje
+    options.add_argument("--headless")
     
-    # Inicijalizacija preko sistemskog geckodriver-a u Docker-u
-    service = Service(executable_path="/usr/local/bin/geckodriver")
+    # Provera da li sistemski geckodriver postoji (Docker/Linux), inače koristi GeckoDriverManager
+    if os.path.exists("/usr/local/bin/geckodriver"):
+        service = Service(executable_path="/usr/local/bin/geckodriver")
+    else:
+        service = Service(GeckoDriverManager().install())
+        
     driver_instance = webdriver.Firefox(
         service=service, 
         options=options
@@ -22,7 +26,6 @@ def driver():
     driver_instance.set_window_size(1920, 1080)
     
     yield driver_instance
-    
     driver_instance.quit()
 
 # Automatski skrinšotovi pri padu testa i HTML izveštaji
