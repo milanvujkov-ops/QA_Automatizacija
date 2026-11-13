@@ -12,12 +12,11 @@ from selenium.webdriver.firefox.options import Options
 def driver():
     options = Options()
     options.add_argument("--headless") # Obavezno za server / CI okruženje
-    # Ako želiš da vidiš prozor dok se test izvršava, zakomentariši ili obriši ovu liniju:
-    # options.add_argument("--headless")
     
-    # Inicijalizacija drajvera preko webdriver-manager-a za Firefox
+    # Inicijalizacija preko sistemskog geckodriver-a u Docker-u
+    service = Service(executable_path="/usr/local/bin/geckodriver")
     driver_instance = webdriver.Firefox(
-        service=Service(GeckoDriverManager().install()), 
+        service=service, 
         options=options
     )
     driver_instance.set_window_size(1920, 1080)

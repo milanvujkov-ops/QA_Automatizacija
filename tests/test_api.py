@@ -89,7 +89,11 @@ def uzorak_novog_korisnika():
 
 def test_sa_fixture_podacima(uzorak_novog_korisnika):
     url = "https://httpbin.org/anything"  # <--- Ovde stavimo 'anything' umesto 'post'
-    
+
+    import time
+    # ...
+    time.sleep(1)  # Pauza od 1 sekunde sprečava 429 grešku
+
     response = requests.post(url, json=uzorak_novog_korisnika)
     
     assert response.status_code == 200, f"Greška, status je: {response.status_code}"
