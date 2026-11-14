@@ -29,23 +29,22 @@ def driver():
     driver_instance.quit()
 
 # Automatski skrinšotovi pri padu testa i HTML izveštaji
-@pytest.hookimpl(tryfirst=True, hookwrapper=True)
+import pytest
+import pytest_html
+
+@pytest.hookimpl(hookwrapper=True)
 def pytest_runtest_makereport(item, call):
     outcome = yield
     report = outcome.get_result()
-    
-    if report.when == "call" and report.failed:
+    extras = getattr(report, "extras", [])
+
+    # Proveravamo da li je test pao tokom izvršavanja ("call") ili pripreme ("setup")
+    if report.when in ("call", "setup") and report.failed:
+        # Tražimo drajver bilo kroz fixture ili kroz instancu klase
         driver = item.funcargs.get("driver") or getattr(item.instance, "driver", None)
         
-        if driver:
-            os.makedirs("screenshots", exist_ok=True)
-            timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-            screenshot_name = f"screenshots/fail_{item.name}_{timestamp}.png"
-            
-            driver.save_screenshot(screenshot_name)
-            print(f"\n[INFO] Skrinšot sačuvan: {screenshot_name}")
-            
-            if hasattr(report, "extra"):
-                report.extra.append(pytest_html.extras.image(screenshot_name))
-            else:
-                report.extra = [pytest_html.extras.image(screenshot_name)]
+        if driver is not None:
+            # Hvatamo skrinšot kao base64 string direktno u HTML izveštaj
+            screenshot_base64 = driver.get_screenshot_as_base64()
+            extras.append(pytest_html.extras.image(screenshot_base64))
+            report.extras = extras
